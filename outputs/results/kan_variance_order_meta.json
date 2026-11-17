@@ -1,0 +1,6 @@
+{
+  "source": "training split only (balanced), no validation or test used",
+  "n_samples_used": 289885,
+  "order_direction": "ascending (ASSUMPTION, paper does not specify)",
+  "n_features": 187
+}

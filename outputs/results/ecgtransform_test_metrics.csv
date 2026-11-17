@@ -1,0 +1,2 @@
+split,n_samples,best_epoch,accuracy_pct,macro_precision_pct,macro_recall_pct,macro_f1_pct,loss_cal_weighted,recall_N_pct,recall_S_pct,recall_V_pct,recall_F_pct,recall_Q_pct
+TEST,21892,23,98.54284670199159,93.38276528416236,90.46195621378226,91.85778503038968,0.12461791722369528,99.44254332707804,80.75539568345323,95.5110497237569,77.1604938271605,99.44029850746269

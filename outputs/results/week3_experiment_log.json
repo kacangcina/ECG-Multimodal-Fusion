@@ -1,0 +1,174 @@
+{
+  "timestamp_utc": "2026-11-08T16:50:28.713272+00:00",
+  "notebook": "03_hasil_analisis.ipynb",
+  "RUN_NEW_TRAINING": false,
+  "training_performed": false,
+  "inference_performed": false,
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.6.1",
+    "matplotlib": "3.10.0",
+    "torch": "2.14.1+cu130"
+  },
+  "models": {
+    "ResNet18 + GAF": "Week 1 baseline",
+    "MobileNetV3-Small + GAF": "Week 2 pembanding terbaik"
+  },
+  "artifacts_used": {
+    "y_test": {
+      "path": "features/y_test.npy",
+      "found": true
+    },
+    "w1_pred": {
+      "path": "outputs/results/predictions_gaf_f1.npz",
+      "found": true
+    },
+    "w1_history": {
+      "path": "outputs/results/history_gaf.csv",
+      "found": true
+    },
+    "w1_ckpt": {
+      "path": "checkpoints/res_net_gaf_test_f1_best.chk",
+      "found": true
+    },
+    "w2_pred": {
+      "path": "outputs/results/week2_predictions_mobilenet_best.npz",
+      "found": true
+    },
+    "w2_history": {
+      "path": "outputs/results/week2_history_mobilenet.csv",
+      "found": true
+    },
+    "w2_ckpt": {
+      "path": "checkpoints/week2_mobilenet_best.chk",
+      "found": true
+    },
+    "w2_comparison": {
+      "path": "outputs/results/week2_comparison.csv",
+      "found": true
+    },
+    "w2_confusion": {
+      "path": "outputs/results/week2_confusion_mobilenet.csv",
+      "found": true
+    },
+    "w2_log": {
+      "path": "outputs/results/week2_experiment_log.json",
+      "found": true
+    }
+  },
+  "checkpoint_epochs": {
+    "ResNet18 + GAF": 21,
+    "MobileNetV3-Small + GAF": 24
+  },
+  "evaluation": {
+    "method": "5-fold stratified evaluation pada fixed test set (bukan cross-validation; tanpa training ulang)",
+    "splitter": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+    "fold_sizes": [
+      4379,
+      4379,
+      4378,
+      4378,
+      4378
+    ],
+    "metrics": [
+      "Accuracy",
+      "Macro Precision",
+      "Macro Recall",
+      "Macro F1"
+    ],
+    "average": "macro",
+    "zero_division": 0
+  },
+  "significance_test": {
+    "test": "scipy.stats.ttest_rel (two-sided)",
+    "pairs": 5,
+    "alpha": 0.05,
+    "difference": "MobileNet - ResNet18",
+    "results": [
+      {
+        "Metric": "Macro F1",
+        "Mean ResNet18": 0.935281354977243,
+        "Mean MobileNet": 0.9215868887486394,
+        "Mean difference (MobileNet - ResNet18)": -0.013694466228603708,
+        "Folds ResNet18 > MobileNet": 5,
+        "t-statistic": -3.2356484279417828,
+        "p-value": 0.03180478170505514,
+        "alpha": 0.05,
+        "reject_H0": true,
+        "Keputusan": "p < \u03b1: ada bukti perbedaan"
+      },
+      {
+        "Metric": "Accuracy",
+        "Mean ResNet18": 0.9886260800149724,
+        "Mean MobileNet": 0.9862964263907091,
+        "Mean difference (MobileNet - ResNet18)": -0.002329653624263206,
+        "Folds ResNet18 > MobileNet": 5,
+        "t-statistic": -2.835445302508749,
+        "p-value": 0.04708438552690381,
+        "alpha": 0.05,
+        "reject_H0": true,
+        "Keputusan": "p < \u03b1: ada bukti perbedaan"
+      },
+      {
+        "Metric": "Macro Precision",
+        "Mean ResNet18": 0.9529222238951489,
+        "Mean MobileNet": 0.9384026902533946,
+        "Mean difference (MobileNet - ResNet18)": -0.014519533641754224,
+        "Folds ResNet18 > MobileNet": 3,
+        "t-statistic": -1.7242882404819386,
+        "p-value": 0.15974639327814416,
+        "alpha": 0.05,
+        "reject_H0": false,
+        "Keputusan": "p \u2265 \u03b1: tidak ada bukti perbedaan"
+      },
+      {
+        "Metric": "Macro Recall",
+        "Mean ResNet18": 0.9197291725457546,
+        "Mean MobileNet": 0.9081034058933735,
+        "Mean difference (MobileNet - ResNet18)": -0.011625766652381153,
+        "Folds ResNet18 > MobileNet": 5,
+        "t-statistic": -4.334148100514093,
+        "p-value": 0.01230945845221984,
+        "alpha": 0.05,
+        "reject_H0": true,
+        "Keputusan": "p < \u03b1: ada bukti perbedaan"
+      }
+    ]
+  },
+  "equivalence_threshold_pp": 1.0,
+  "interpretation": {
+    "1_setara": "Macro F1 seluruh test set: ResNet18 0.9353, MobileNet 0.9211 (selisih -1.42 pp). |selisih| > 1.0 pp \u2192 tidak memenuhi ambang 'sebanding'; MobileNet lebih rendah.",
+    "2_konsisten": "Selisih Macro F1 per fold (MobileNet \u2212 ResNet18, pp): [-2.65, -0.65, -0.39, -1.16, -2.01]. ResNet18 lebih tinggi pada 5/5 fold; std selisih 0.95 pp. Arah selisih konsisten di semua fold.",
+    "3_ttest": "Macro F1: t = -3.236, p = 0.0318; Accuracy: t = -2.835, p = 0.0471 (\u03b1 = 0.05). Macro F1: p < \u03b1 \u2192 ada bukti perbedaan pada 5 fold evaluasi ini; dengan hanya 5 pasangan dari satu test set dan satu run per model, ini bukti lemah dan tidak menggeneralisasi ke data/seed lain.",
+    "4_kelas_sulit_ResNet18 + GAF": "ResNet18 + GAF: recall terendah kelas S (0.8183, std antar fold 0.0329); S = 0.8183, F = 0.8272.",
+    "4_kelas_sulit_MobileNetV3-Small + GAF": "MobileNetV3-Small + GAF: recall terendah kelas F (0.7963, std antar fold 0.0447); S = 0.8058, F = 0.7963.",
+    "5_tradeoff": "MobileNet memakai 13.4% parameter ResNet18 (7.4\u00d7 lebih sedikit) dan 3.7\u00d7 lebih cepat per sampel saat inferensi (GPU Week 2), dengan selisih Macro F1 -1.42 pp.",
+    "6_layak": "Jika efisiensi (memori/latensi) lebih penting, MobileNet dapat dipertimbangkan dengan menerima penurunan Macro F1 1.42 pp pada test set ini \u2014 perlu dicek apakah penurunan recall kelas minoritas (S/F) dapat diterima untuk penggunaannya. Keputusan ini adalah penilaian kebutuhan, bukan hasil uji statistik."
+  },
+  "limitations": [
+    "Satu model dilatih sekali sebelum folded evaluation",
+    "Fold hanya untuk evaluasi (subset test set tetap)",
+    "Satu seed (42)",
+    "Test set dipakai di Week 1/2 untuk monitoring dan seleksi checkpoint (tanpa validation set)",
+    "Paired t-test hanya 5 pasangan observasi",
+    "Waktu training ResNet18 tidak tercatat di Week 1"
+  ],
+  "week3_outputs": [
+    "outputs/figures/week3_confusion_matrices.png",
+    "outputs/figures/week3_f1_curve.png",
+    "outputs/figures/week3_loss_curve.png",
+    "outputs/figures/week3_per_class_boxplot.png",
+    "outputs/results/week3_confusion_mobilenet_gaf.csv",
+    "outputs/results/week3_confusion_resnet18_gaf.csv",
+    "outputs/results/week3_experiment_log.json",
+    "outputs/results/week3_fold_metrics.csv",
+    "outputs/results/week3_paired_ttest.csv",
+    "outputs/results/week3_per_class_recall_folds.csv",
+    "outputs/results/week3_summary.csv"
+  ],
+  "week1_week2_artifacts_unchanged": true
+}

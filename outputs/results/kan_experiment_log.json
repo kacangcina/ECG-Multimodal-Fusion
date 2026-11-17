@@ -1,0 +1,66 @@
+{
+  "paper": "Cui et al. 2025, Algorithms 18(2):90, DOI 10.3390/a18020090 (inspirasi, bukan replikasi exact)",
+  "paper_reported_mitbih": {
+    "accuracy": 99.08,
+    "precision": 99.07,
+    "recall": 98.99,
+    "f1": 99.03,
+    "note": "PAPER-REPORTED, protokol split tidak dijelaskan; bukan hasil eksperimen ini"
+  },
+  "paper_params_verified": {
+    "input": 187,
+    "hidden": 128,
+    "output": 5,
+    "lr": 5e-05,
+    "optimizer": "Adam",
+    "batch": 64,
+    "epochs": 150,
+    "scale_spline": 1.0,
+    "grid_eps": 0.02,
+    "activation": "SiLU",
+    "grid_range": [
+      -1,
+      1
+    ],
+    "spline": "quadratic (order 2)"
+  },
+  "assumptions": {
+    "grid_size": 5,
+    "variance_order_direction": "ascending",
+    "pilot_tolerance_pp": 2.0,
+    "spline_init": "noise_scale 0.1 x scale_spline",
+    "balancing": "random oversampling with replacement, training split only, target = majority count"
+  },
+  "deviations": {
+    "grid_eps": "not applied (no adaptive grid update)",
+    "library": "custom minimal KAN implementation, no pykan",
+    "split": "stratified 80/20 of raw train (random_state=42)"
+  },
+  "baseline_caveat": "baseline checkpoint selected on test set (notebook 01 Table A); KAN selects on validation",
+  "environment": {
+    "torch": "2.14.1+cu130",
+    "numpy": "2.4.6",
+    "sklearn": "1.6.1",
+    "device": "cuda",
+    "gpu": "Tesla T4"
+  },
+  "seed": 42,
+  "flags": {
+    "RUN_SMOKE_TEST": false,
+    "RUN_PILOT": true,
+    "RUN_FULL_TRAINING": false,
+    "RUN_FINAL_EVALUATION": false
+  },
+  "smoke_status": null,
+  "pilot_decision": "NOT PROMISING",
+  "comparison_decision": null,
+  "final_test_metrics": null,
+  "efficiency": {
+    "kan_total_params": 196608,
+    "kan_trainable_params": 196608,
+    "baseline_total_params": 11341125,
+    "baseline_params_note": "dihitung: ResNet18 torchvision 11,689,512 - fc 513,000 + head 512-256-128-5 = 11,341,125 (verifikasi aritmetika)",
+    "mean_epoch_time_s": 19.56241567134857,
+    "inference_time_per_sample_ms": "NOT RUN"
+  }
+}

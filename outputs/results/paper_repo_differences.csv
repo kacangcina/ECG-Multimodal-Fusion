@@ -1,0 +1,13 @@
+aspek,paper,repositori,notebook ini
+Backbone,AlexNet (fc7 4096→512) dan CNN kecil,ResNet18 pretrained; layer3-4 fine-tune; FC 512-256-128-5,ResNet18 (repo)
+Ukuran input,227×227 (AlexNet),224×224,224×224
+GAF,Summation (Eq. 2),"Final: difference, image_size=150","difference, 150 (repo)"
+RP,Threshold λ + Heaviside (Eq. 4),"Non-biner: jarak/0.1, clip 10, d/5−1",repo
+MTF,10 bin kuantil (Eq. 5),"get_mtf: 10 bin lebar-sama [0,1], skala r/5−1 → [−1,−0.8]",repo
+MIF,GAF-RP-MTF 3 channel → CNN → softmax,"HDF5 (N,3,224,224); contoh run 10 epoch","tumpukan channel on-the-fly, 25 epoch"
+MFF,fc7 tiap modalitas → GFN → SVM,Concat GAF+RP (1024-d) → FC 4 layer; tanpa GFN/SVM/MTF,keduanya: GFN+SVM dan concat+FC
+GFN,"High-boost K (c=1), sigmoid, ⊙, Σ",tidak ada,sesuai paper; reshape 16×32 = asumsi
+SVM,f = Wx + b; parameter tidak disebut,tidak ada,LinearSVC default = asumsi
+Split data / SMOTE,MIT-BIH split Kaggle; SMOTE,sama,sama
+Seleksi checkpoint,tidak dinyatakan,terbaik pada test set (recall/F1),sama (test set)
+Bug repo yang dihindari,-,zip loader GAF shuffle=True dgn RP shuffle=False; ekstraktor tanpa .eval(); net[6] tidak di optimizer,diperbaiki

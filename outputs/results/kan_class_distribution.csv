@@ -1,0 +1,6 @@
+class,train_before_balance,train_after_balance,validation
+N,57977,57977,14494
+S,1778,57977,445
+V,4630,57977,1158
+F,513,57977,128
+Q,5145,57977,1286

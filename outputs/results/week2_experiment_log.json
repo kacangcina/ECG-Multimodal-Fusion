@@ -1,0 +1,195 @@
+{
+  "timestamp_utc": "2026-11-08T13:11:23.327973+00:00",
+  "seed": 42,
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "scikit-learn": "1.6.1",
+    "imbalanced-learn": "0.14.2",
+    "numpy": "2.4.6",
+    "h5py": "3.14.0",
+    "cuda": "13.0",
+    "cudnn": 92800,
+    "gpu": "Tesla T4"
+  },
+  "note_imbalanced_learn": "Week 2 tidak menjalankan SMOTE; artifact SMOTE Week 1 dipakai apa adanya. Versi di atas = paket terpasang di runtime ini, belum tentu sama dengan saat SMOTE dibuat.",
+  "dataset": {
+    "source": "MIT-BIH (Kaggle shayanfazeli/heartbeat), split resmi",
+    "raw_train": [
+      152471,
+      187
+    ],
+    "raw_test": [
+      21892,
+      187
+    ],
+    "gaf_train": [
+      152471,
+      224,
+      224
+    ],
+    "gaf_test": [
+      21892,
+      224,
+      224
+    ],
+    "train_class_counts": {
+      "0": 72471,
+      "1": 30000,
+      "2": 20000,
+      "3": 20000,
+      "4": 10000
+    },
+    "smoke_subset": {
+      "train": 2048,
+      "test": 1024
+    }
+  },
+  "shared_training": {
+    "batch_size": 64,
+    "epochs_full": 25,
+    "epochs_smoke": 2,
+    "loss": "CrossEntropyLoss(weight=[1, 2, 1, 2, 1])",
+    "optimizer": "Adam betas=(0.5, 0.999)",
+    "scheduler": "ExponentialLR(gamma=0.95), step per epoch",
+    "checkpoint_selection": "macro-F1 terbaik pada test set (sama dengan Week 1)"
+  },
+  "baseline_week1": {
+    "source": "predictions_gaf_f1.npz",
+    "params": {
+      "total": 11341125,
+      "trainable": 10658053
+    },
+    "best_f1_checkpoint": {
+      "accuracy": 0.9886259820939156,
+      "precision": 0.9523079649879549,
+      "recall": 0.9197085400563527,
+      "f1": 0.9353154903570706,
+      "epoch": 21
+    },
+    "training_time_sec": "NOT RECORDED"
+  },
+  "mobilenet_v3_small": {
+    "status": "COMPLETE",
+    "config": {
+      "model": "torchvision mobilenet_v3_small",
+      "weights": "IMAGENET1K_V1",
+      "input": "GAF 1x224x224 expand ke 3 channel, tanpa normalisasi",
+      "frozen": "features[0:4]",
+      "trainable": "features[4:] + classifier",
+      "classifier": "Linear(576,1024) -> Hardswish -> Dropout(0.2) -> Linear(1024,5)",
+      "optimizer": "Adam betas=(0.5, 0.999)",
+      "lr": {
+        "features[4:]": 0.0001,
+        "classifier[0]": 0.0001,
+        "classifier[3] (baru)": 0.002
+      },
+      "scheduler": "ExponentialLR(gamma=0.95)",
+      "loss": "CrossEntropyLoss(weight=[1, 2, 1, 2, 1])"
+    },
+    "params": {
+      "total": 1522981,
+      "trainable": 1512493
+    },
+    "batch_size": 64,
+    "epochs": 25,
+    "training_time_sec": 19322.43660736084,
+    "training_time_per_epoch_sec": 772.8974642944336,
+    "best_f1_checkpoint": {
+      "accuracy": 0.986296363968573,
+      "precision": 0.9353261093030734,
+      "recall": 0.9080558993995949,
+      "f1": 0.9211256774780562,
+      "epoch": 24
+    },
+    "final_epoch": {
+      "accuracy": 0.9854741458066874,
+      "precision": 0.922583620337079,
+      "recall": 0.9104259045629254,
+      "f1": 0.916027345520764,
+      "epoch": 25
+    }
+  },
+  "cnn_1d": {
+    "status": "COMPLETE",
+    "config": {
+      "model": "ECG1DCNN (3x Conv1d)",
+      "input": "raw ECG 1x187 (features/*.npy), tanpa normalisasi tambahan",
+      "conv_layers": 3,
+      "kernels": [
+        7,
+        5,
+        3
+      ],
+      "channels": [
+        32,
+        64,
+        128
+      ],
+      "batchnorm": true,
+      "pooling": "MaxPool1d(2) setelah conv1 & conv2; AdaptiveAvgPool1d(1) setelah conv3",
+      "dropout": null,
+      "classifier": "Linear(128,5)",
+      "pretrained": false,
+      "optimizer": "Adam betas=(0.5, 0.999)",
+      "lr": 0.001,
+      "scheduler": "ExponentialLR(gamma=0.95)",
+      "loss": "CrossEntropyLoss(weight=[1, 2, 1, 2, 1])"
+    },
+    "params": {
+      "total": 36357,
+      "trainable": 36357
+    },
+    "batch_size": 64,
+    "epochs": 25,
+    "training_time_sec": 336.27688574790955,
+    "training_time_per_epoch_sec": 13.451075429916381,
+    "best_f1_checkpoint": {
+      "accuracy": 0.9761099945185456,
+      "precision": 0.8702757867981455,
+      "recall": 0.907717224606374,
+      "f1": 0.8864252028217436,
+      "epoch": 25
+    },
+    "final_epoch": {
+      "accuracy": 0.9761099945185456,
+      "precision": 0.8702757867981455,
+      "recall": 0.907717224606374,
+      "f1": 0.8864252028217436,
+      "epoch": 25
+    }
+  },
+  "inference_compute_only": {
+    "device": "cuda (Tesla T4)",
+    "batch_size": 64,
+    "Week 1 ResNet18 + GAF": {
+      "ms_per_batch": 51.02812029999768,
+      "ms_per_sample": 0.7973143796874638
+    },
+    "Week 2 MobileNetV3-Small + GAF": {
+      "ms_per_batch": 13.744352300091123,
+      "ms_per_sample": 0.2147555046889238
+    },
+    "Week 2 1D CNN": {
+      "ms_per_batch": 0.7451313998899423,
+      "ms_per_sample": 0.011642678123280348
+    }
+  },
+  "flags": {
+    "RUN_MOBILENET_SMOKE": false,
+    "RUN_MOBILENET_FULL": false,
+    "RUN_1D_SMOKE": false,
+    "RUN_1D_FULL": true
+  },
+  "deviations": [
+    "D1 head MobileNet: hanya layer terakhir diganti",
+    "D2 MobileNet features[0:4] beku",
+    "D3 MobileNet LR 1e-4/2e-3",
+    "D4 1D CNN LR 1e-3 dari nol + BatchNorm",
+    "D5 tanpa validation set (seleksi pada test set, sama dengan Week 1)",
+    "D6 dropout 0.2 bawaan MobileNetV3"
+  ],
+  "week1_artifacts_unchanged": true
+}

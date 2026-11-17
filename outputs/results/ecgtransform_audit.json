@@ -1,0 +1,281 @@
+{
+  "audit_date": "2026-11-13T18:10:30",
+  "scope": "compatibility audit only; no training, no performance evaluation, no claim of paper reproduction",
+  "repo": {
+    "url": "https://github.com/emadeldeen24/ECGTransForm.git",
+    "commit": "2f5c28c088ff65681649e3c267c0894336ec412a"
+  },
+  "dataset": {
+    "shapes": {
+      "X_train_smote": [
+        152471,
+        187
+      ],
+      "y_train_smote": [
+        152471
+      ],
+      "X_test": [
+        21892,
+        187
+      ],
+      "y_test": [
+        21892
+      ],
+      "train_raw_slice (INFERENCE)": [
+        87554,
+        187
+      ]
+    },
+    "dtypes": {
+      "X_train_smote": "float32",
+      "y_train_smote": "float64",
+      "X_test": "float32",
+      "y_test": "int32"
+    },
+    "train_is_smote": true,
+    "raw_csv_available": false,
+    "class_distribution": {
+      "test": {
+        "0": 18118,
+        "1": 556,
+        "2": 1448,
+        "3": 162,
+        "4": 1608
+      },
+      "train_raw_slice": {
+        "0": 72471,
+        "1": 2223,
+        "2": 5788,
+        "3": 641,
+        "4": 6431
+      },
+      "train_smote": {
+        "0": 72471,
+        "1": 30000,
+        "2": 20000,
+        "3": 20000,
+        "4": 10000
+      }
+    },
+    "class_names": [
+      "N",
+      "S",
+      "V",
+      "F",
+      "Q"
+    ]
+  },
+  "data_range": {
+    "test (seluruh, 21.892)": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.17347916039089803,
+      "std": 0.22555252987155847,
+      "NaN": 0,
+      "Inf": 0
+    },
+    "train mentah [:87554]": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.1742829525490633,
+      "std": 0.2263273871905214,
+      "NaN": 0,
+      "Inf": 0
+    },
+    "train sintetik (SMOTE)": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.1814951588719512,
+      "std": 0.22692179788568798,
+      "NaN": 0,
+      "Inf": 0
+    },
+    "X_train_smote (seluruh)": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.17735366631012547,
+      "std": 0.22660871966838744,
+      "NaN": 0,
+      "Inf": 0
+    }
+  },
+  "sequence_length": {
+    "config_sequence_len": 186,
+    "used_in_code": false,
+    "trans_dim": 25,
+    "final_len_186": 25,
+    "final_len_187": 25,
+    "compatible_input_lengths": [
+      180,
+      187
+    ]
+  },
+  "model": {
+    "input_shape": [
+      8,
+      1,
+      187
+    ],
+    "output_shape": [
+      8,
+      5
+    ],
+    "n_params": 637689,
+    "n_params_unused_encoder_layer": 107173,
+    "modified": false
+  },
+  "class_weights_cal": {
+    "train_raw": [
+      1.0,
+      3.4843288468572298,
+      2.527399673070052,
+      4.727912303900756,
+      2.422056434686563
+    ],
+    "train_smote": [
+      1.0,
+      1.0,
+      1.2874542082852982,
+      1.2874542082852982,
+      1.9806013888452436
+    ],
+    "baseline_resnet18": [
+      1,
+      2,
+      1,
+      2,
+      1
+    ]
+  },
+  "forward_status": "PASS",
+  "loss_status": "PASS",
+  "loss_value_random_init_batch8": 1.6145963668823242,
+  "backward_status": "PASS",
+  "test_integrity": "PASS",
+  "repo_integrity": "PASS",
+  "audit_table": [
+    {
+      "no": 1,
+      "audit": "Dataset",
+      "status": "PASS",
+      "evidence": "test (21892, 187) float32; train-mentah = X_train_smote[:87554] (87554, 187) (INFERENCE, distribusi = Table 1); X_train_smote (152471, 187) = hasil SMOTE; raw CSV tidak tersedia",
+      "adaptation": "Train mentah diambil sebagai slice [:87554] (INFERENCE); data SMOTE tidak dianggap raw"
+    },
+    {
+      "no": 2,
+      "audit": "Label",
+      "status": "PASS",
+      "evidence": "repo class_names=['N', 'S', 'V', 'F', 'Q'] == proyek; num_classes=5; test dist == target {0: 18118, 1: 556, 2: 1448, 3: 162, 4: 1608}",
+      "adaptation": "Tidak ada remapping; hanya cast dtype ke int64"
+    },
+    {
+      "no": 3,
+      "audit": "Sequence length",
+      "status": "PASS",
+      "evidence": "sequence_len=186 tidak dipakai kode; L=186 & 187 -> panjang akhir 25 == trans_dim 25; L kompatibel 180..187",
+      "adaptation": "Tidak ada (config tidak perlu diubah; input 187 titik utuh, tanpa dipotong)"
+    },
+    {
+      "no": 4,
+      "audit": "Normalization",
+      "status": "PASS",
+      "evidence": "repo tidak menormalisasi (scan [3]); paper menormalisasi ke [0,1] saat preprocessing; dataset terukur min=0.000 max=1.000, NaN=0, Inf=0 pada test, train mentah, dan sintetik",
+      "adaptation": "Tidak ada: normalisasi tambahan TIDAK diperlukan dan tidak diterapkan"
+    },
+    {
+      "no": 5,
+      "audit": "Dataloader",
+      "status": "PASS",
+      "evidence": "Load_Dataset & data_generator asli menerima dict {samples (N,1,187), labels int64}; batch (8, 1, 187); test via data_generator = 21892 sampel identik dengan X_test; tanpa adapter batch (8,187) gagal",
+      "adaptation": "Adapter reshape + cast int64; val split dari train bila memakai data_generator (lihat tabel Adaptasi)"
+    },
+    {
+      "no": 6,
+      "audit": "Model input",
+      "status": "PASS",
+      "evidence": "(8,1,187) -> conv_block3 (8, 128, 25) (panjang waktu 25 = d_model) -> logits (8, 5)",
+      "adaptation": "Tidak ada perubahan pada model; config.sequence_len=186 dibiarkan (tidak dibaca kode)"
+    },
+    {
+      "no": 7,
+      "audit": "Forward pass",
+      "status": "PASS",
+      "evidence": "input (8,1,187) -> output (8,5) float32, tanpa NaN/Inf; waktu 6.88 ms (cuda, batch 8, eval)",
+      "adaptation": "Tidak ada"
+    },
+    {
+      "no": 8,
+      "audit": "Loss",
+      "status": "PASS",
+      "evidence": "CrossEntropyLoss(weight=CAL train-mentah): logits (8, 5), label (8,) int64, loss=1.6146 (finite)",
+      "adaptation": "Tidak ada"
+    },
+    {
+      "no": 9,
+      "audit": "Backward",
+      "status": "PASS",
+      "evidence": "loss.backward() tanpa error; gradien finite (norma 0.127); 79/91 parameter menerima gradien (sisanya = encoder_layer.* salinan tak terpakai); 1x Adam.step mengubah 79 parameter, semuanya finite",
+      "adaptation": "Tidak ada"
+    },
+    {
+      "no": 10,
+      "audit": "Test integrity",
+      "status": "PASS",
+      "evidence": "21.892 x 187; N/S/V/F/Q = [18118, 556, 1448, 162, 1608]; hash file & array identik sebelum/sesudah audit",
+      "adaptation": "Tidak ada (test set tidak di-resample / di-SMOTE / dipotong / dibuat ulang)"
+    },
+    {
+      "no": 11,
+      "audit": "Preprocessing paper vs Kaggle",
+      "status": "UNKNOWN",
+      "evidence": "Segmentasi, R-peak, zero padding, normalisasi [0,1] sudah tercermin (INFERENCE; Table 1 identik). Denoising / filtering / resampling: UNKNOWN. Tidak ada langkah yang perlu / boleh diulang.",
+      "adaptation": "Tidak ada preprocessing tambahan"
+    },
+    {
+      "no": 12,
+      "audit": "Repository integrity",
+      "status": "PASS",
+      "evidence": "commit 2f5c28c; hash 12 file sama sebelum/sesudah; git status bersih",
+      "adaptation": "Tidak ada file repo diubah; adapter hanya di notebook"
+    }
+  ],
+  "adaptation_notes": [
+    {
+      "item": "Cast label ke int64",
+      "level": "minor",
+      "detail": "y_train_smote float64 dan y_test int32 -> int64; nilai label tidak berubah (Load_Dataset juga memanggil .long())."
+    },
+    {
+      "item": "Reshape (N,187) -> (N,1,187)",
+      "level": "minor",
+      "detail": "Adapter notebook-only `to_ecgtransform_dict`; repo mensyaratkan sumbu channel. Nilai sinyal tidak berubah."
+    },
+    {
+      "item": "Format .pt tidak wajib dibuat di Drive",
+      "level": "minor",
+      "detail": "`Load_Dataset` asli dapat memakai dict in-memory; untuk memakai `data_generator`, .pt ditulis ke folder sementara."
+    },
+    {
+      "item": "Validation split dari train",
+      "level": "protocol",
+      "detail": "Repo mewajibkan val.pt (paper §4.2: 20% train). Proyek tidak punya validation set -> harus dipotong dari train (BUKAN dari test), seed tetap, stratified."
+    },
+    {
+      "item": "Pilih train set: mentah 87.554 vs SMOTE 152.471",
+      "level": "protocol",
+      "detail": "Paper/repo tidak memakai SMOTE (bobot CAL, bukan oversampling) dan train-mentah hanya tersedia sebagai slice [:87554] (INFERENCE). Baseline memakai data SMOTE. Bobot CAL berbeda untuk kedua pilihan (tabel di atas)."
+    },
+    {
+      "item": "Protokol seleksi checkpoint / evaluasi",
+      "level": "protocol",
+      "detail": "Repo: pilih epoch dengan F1 validasi, test dievaluasi di epoch terakhir. Week 1: checkpoint terbaik dipilih berdasarkan metrik test. Kedua protokol berbeda -> harus ditetapkan sebelum training agar perbandingan adil."
+    }
+  ],
+  "residual_unknowns": [
+    "Identitas bit-per-bit X_train_smote[:87554] dengan mitbih_train.csv Kaggle tidak dapat diverifikasi (CSV tidak ada di artifact).",
+    "Asal panjang 186 pada config penulis (dipotong dari 187 / segmentasi berbeda) tidak dapat dipastikan; file .pt penulis tidak diperiksa.",
+    "Denoising / filtering / resampling pada data penulis ECGTransForm tidak disebut di paper maupun repo -> kesetaraan dengan dataset Kaggle tidak dapat dipastikan."
+  ],
+  "final_feasibility": "FEASIBLE WITH ADAPTATION",
+  "recommendation": "LANJUT TRAINING (bersyarat: tetapkan dan dokumentasikan keputusan protokol di bawah SEBELUM training)"
+}

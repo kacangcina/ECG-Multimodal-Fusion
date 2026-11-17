@@ -1,0 +1,34 @@
+# requirements.txt: ECG Heartbeat Classification Using Multimodal Fusion (Week 1 reproduction)
+# Daftar ini dibuat dari library yang benar-benar di-import oleh 01_replikasi.ipynb.
+#
+# ATURAN VERSI: versi hanya ditulis bila terverifikasi dari output notebook eksperimen.
+# Versi yang TIDAK tercatat pada output ditandai "NOT RECORDED" dan sengaja TIDAK di-pin (tidak ditebak).
+# Versi live dicatat otomatis oleh notebook (Section 20 -> outputs/results/experiment_log.json).
+#
+# Environment eksperimen: Google Colab, Tesla T4 (device: cuda).
+# `google.colab` (drive.mount) adalah modul bawaan Colab, bukan paket pip.
+
+# ===== A. Library umum (aman dengan `pip install -r requirements.txt`) =====
+numpy                    # version: NOT RECORDED
+pandas                   # version: NOT RECORDED
+h5py                     # version: NOT RECORDED
+matplotlib               # version: NOT RECORDED
+scikit-learn             # version: NOT RECORDED
+Pillow                   # version: NOT RECORDED
+joblib                   # version: NOT RECORDED
+
+# ===== B. Hanya untuk MEMBUAT artifact (RUN_FEATURES / RUN_GAF); tidak perlu bila artifact sudah ada =====
+kagglehub[pandas-datasets]   # version: NOT RECORDED (dataset Kaggle shayanfazeli/heartbeat)
+imbalanced-learn             # version: NOT RECORDED (SMOTE)
+pyts                         # version: NOT RECORDED (GramianAngularField)
+
+# ===== C. PyTorch / CUDA: JANGAN dipasang lewat `pip install -r` begitu saja =====
+# Build PyTorch bergantung pada versi CUDA/driver mesin, sehingga satu perintah pip tidak cocok untuk semua environment.
+# Pasang torch dan torchvision SECARA TERPISAH sesuai instruksi di https://pytorch.org untuk CUDA Anda.
+# Versi yang TERCATAT pada eksperimen (Colab, Tesla T4):
+#   torch==2.14.1+cu130
+#   torchvision==0.29.1+cu130
+# (tag +cu130 menandakan build CUDA 13.0; versi CUDA runtime dan cuDNN: NOT RECORDED pada output sumber.)
+# Di Colab, keduanya sudah terpasang; tidak perlu diinstal ulang.
+# torch
+# torchvision

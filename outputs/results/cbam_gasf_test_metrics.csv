@@ -1,0 +1,2 @@
+accuracy,macro_precision,macro_recall,macro_f1,checkpoint_epoch,inference_time_per_sample_ms
+98.46519276448018,89.62256128713882,92.17946847534921,90.52506535184989,5,1.9059805031038826

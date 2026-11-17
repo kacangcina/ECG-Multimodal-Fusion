@@ -1,0 +1,202 @@
+{
+  "paper": "ECGTransForm: Empowering adaptive ECG arrhythmia classification framework with bidirectional transformer",
+  "doi": "10.1016/j.bspc.2023.105714",
+  "repository": "https://github.com/emadeldeen24/ECGTransForm.git",
+  "seed": 42,
+  "python_version": "3.13.16",
+  "torch_version": "2.14.1+cu130",
+  "numpy_version": "2.4.6",
+  "sklearn_version": "1.6.1",
+  "cuda_version": "13.0",
+  "gpu_name": "Tesla T4",
+  "device": "cuda",
+  "start_time": "2026-11-14T11:12:51",
+  "status": "COMPLETED",
+  "git_commit": "2f5c28c088ff65681649e3c267c0894336ec412a",
+  "training_config": {
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "betas": [
+      0.9,
+      0.99
+    ],
+    "batch_size": 128,
+    "num_epochs": 60,
+    "scheduler": null,
+    "gradient_clipping": null,
+    "warmup": null,
+    "early_stopping": null,
+    "mixed_precision": false,
+    "loss": "CrossEntropyLoss(weight=CAL via repo get_class_weight pada label training split)",
+    "dropout_config_repo": 0.2,
+    "sequence_len_config(unused_by_code)": 186,
+    "input_len_used": 187,
+    "source": "configs/hparams.py + trainer.py @ 2f5c28c088ff65681649e3c267c0894336ec412a"
+  },
+  "n_params_total": 637689,
+  "n_params_trainable": 637689,
+  "n_params_unused_encoder_layer": 107173,
+  "dataset": "MIT-BIH heartbeat (Kaggle shayanfazeli/heartbeat), 187 titik/beat",
+  "train_source": "/content/drive/MyDrive/Projek PSD/ECG_Multimodal_Fusion/data/mitbih_train.csv",
+  "train_source_status": "EXPLICIT (mitbih_train.csv)",
+  "smote_used": false,
+  "dataset_shapes": {
+    "X_train_raw": [
+      87554,
+      187
+    ],
+    "X_test": [
+      21892,
+      187
+    ]
+  },
+  "class_distribution": {
+    "train_raw": {
+      "0": 72471,
+      "1": 2223,
+      "2": 5788,
+      "3": 641,
+      "4": 6431
+    },
+    "test": {
+      "0": 18118,
+      "1": 556,
+      "2": 1448,
+      "3": 162,
+      "4": 1608
+    }
+  },
+  "overlap_test_rows_in_train": 0,
+  "validation_split": {
+    "method": "train_test_split(stratify=y, random_state=42)",
+    "test_size": 0.2,
+    "n_train": 70043,
+    "n_val": 17511,
+    "split_sha256": "7b5ec0061945c6e4196d25e0945514e292c3d20d572830d0c7e6ee2170461d03",
+    "train_dist": {
+      "0": 57977,
+      "1": 1778,
+      "2": 4630,
+      "3": 513,
+      "4": 5145
+    },
+    "val_dist": {
+      "0": 14494,
+      "1": 445,
+      "2": 1158,
+      "3": 128,
+      "4": 1286
+    },
+    "val_rows_duplicated_in_train": 0
+  },
+  "cal_weights": [
+    1.0,
+    3.4845572430831413,
+    2.5274895120767114,
+    4.7275258139862215,
+    2.422021010888841
+  ],
+  "smoke_test": {
+    "status": "PASS",
+    "time": "2026-11-17T15:51:08",
+    "checks": [
+      {
+        "check": "data loader / batch shape",
+        "status": "PASS",
+        "detail": "x(32, 1, 187) y(32,)"
+      },
+      {
+        "check": "forward",
+        "status": "PASS",
+        "detail": "out(32, 5)"
+      },
+      {
+        "check": "loss",
+        "status": "PASS",
+        "detail": "1.6030"
+      },
+      {
+        "check": "backward",
+        "status": "PASS",
+        "detail": "param tanpa grad (di luar encoder_layer): tidak ada"
+      },
+      {
+        "check": "optimizer step",
+        "status": "PASS",
+        "detail": "79 parameter berubah"
+      },
+      {
+        "check": "train epoch + validation loop",
+        "status": "PASS",
+        "detail": "train_loss=1.6111 val_loss=1.6130 val_f1=0.0667"
+      },
+      {
+        "check": "checkpoint save/load",
+        "status": "PASS",
+        "detail": "output identik=True, optimizer state identik=True"
+      },
+      {
+        "check": "test set tidak dipakai",
+        "status": "PASS",
+        "detail": "smoke test hanya memakai subset training/validation"
+      }
+    ]
+  },
+  "checkpoint_path": "/content/drive/MyDrive/Projek PSD/ECG_Multimodal_Fusion/checkpoints/ecgtransform_best_val_f1.pt",
+  "end_time": "2026-11-17T17:06:09",
+  "duration": "73.7 min (jumlah durasi epoch)",
+  "training_duration_seconds": 4419.745433330536,
+  "best_epoch": 23,
+  "best_validation_metrics": {
+    "best_val_macro_f1": 0.9313604914890478,
+    "best_val_accuracy": 0.9871509336988179,
+    "best_val_macro_precision": 0.9470701504028887,
+    "best_val_macro_recall": 0.9173032542740532,
+    "best_val_loss": 0.09574417105322144
+  },
+  "final_test_metrics": {
+    "accuracy": 0.9854284670199159,
+    "macro_precision": 0.9338276528416236,
+    "macro_recall": 0.9046195621378226,
+    "macro_f1": 0.9185778503038968,
+    "per_class_recall": {
+      "N": 0.9944254332707805,
+      "S": 0.8075539568345323,
+      "V": 0.955110497237569,
+      "F": 0.7716049382716049,
+      "Q": 0.9944029850746269
+    }
+  },
+  "test_evaluated_once_at": "2026-11-17T17:09:01",
+  "test_integrity": "file test identik sebelum/sesudah",
+  "final_decision": "DOES NOT EXCEED BASELINE",
+  "comparison_vs_baseline": {
+    "baseline": {
+      "accuracy": 98.86,
+      "macro_precision": 95.23,
+      "macro_recall": 91.97,
+      "macro_f1": 93.53
+    },
+    "ecgtransform": {
+      "accuracy": 98.5428467019916,
+      "macro_precision": 93.38276528416236,
+      "macro_recall": 90.46195621378226,
+      "macro_f1": 91.85778503038968
+    },
+    "difference_pp": {
+      "accuracy": -0.3171532980083924,
+      "macro_precision": -1.8472347158376436,
+      "macro_recall": -1.5080437862177405,
+      "macro_f1": -1.672214969610323
+    }
+  },
+  "notes": [
+    "Loop training di notebook mereplikasi Adam(betas 0.9/0.99, lr 1e-3, wd 1e-4) + CrossEntropyLoss(weight=CAL) dari trainer.py; di-guard terhadap scheduler/clip/warmup/AMP.",
+    "Beda dari repo: checkpoint dipilih dari best validation Macro F1 dan test dievaluasi pada checkpoint itu (repo: test pada epoch terakhir).",
+    "Beda dari repo: validation loader drop_last=False; DataLoader memakai Load_Dataset repo, bukan data_generator (agar tidak butuh file .pt & agar val lengkap).",
+    "Paper menyebut dropout 0.5, config repo 0.2 -> memakai repo (0.2). sequence_len=186 di config tidak dipakai kode; input 187 titik utuh.",
+    "Train mentah: lihat train_source_status di log ini. Bukan reproduksi exact paper; ada adaptasi data format (reshape/cast), split validasi, resume.",
+    "Metrik train = metrik berjalan selama epoch (dropout aktif)."
+  ]
+}

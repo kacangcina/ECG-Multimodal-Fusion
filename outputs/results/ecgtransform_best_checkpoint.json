@@ -1,0 +1,10 @@
+{
+  "selection_metric": "validation_macro_f1 (tie -> earlier epoch)",
+  "best_epoch": 23,
+  "best_val_macro_f1": 0.9313604914890478,
+  "best_val_accuracy": 0.9871509336988179,
+  "best_val_macro_precision": 0.9470701504028887,
+  "best_val_macro_recall": 0.9173032542740532,
+  "best_val_loss": 0.09574417105322144,
+  "checkpoint_path": "/content/drive/MyDrive/Projek PSD/ECG_Multimodal_Fusion/checkpoints/ecgtransform_best_val_f1.pt"
+}

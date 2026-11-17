@@ -1,0 +1,33 @@
+# Dataset
+data/
+
+# Generated features
+features/
+
+# Large HDF5 files
+hdf5/
+
+# Model checkpoints
+checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Large generated logs
+*.log

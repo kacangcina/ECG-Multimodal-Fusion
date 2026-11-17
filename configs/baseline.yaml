@@ -1,0 +1,52 @@
+# Baseline: ResNet18 + GAF
+experiment_name: resnet18_gaf_baseline
+
+dataset:
+  train_file: data/mitbih_train.csv
+  test_features: features/X_test.npy
+  test_labels: features/y_test.npy
+  n_features: 187
+  n_classes: 5
+  classes: [N, S, V, F, Q]
+
+representation:
+  method: GAF
+  image_size: 150
+  resize: 224
+  resize_mode: bilinear
+  channel_repeat: 3
+
+model:
+  architecture: resnet18
+  pretrained: true
+  unfreeze:
+    - layer3
+    - layer4
+  classifier:
+    layers: [512, 256, 128, 5]
+    first_linear_bias: false
+
+training:
+  batch_size: 64
+  epochs: 25
+  class_weights: [1.0, 2.0, 1.0, 2.0, 1.0]
+  optimizer: Adam
+  adam_betas: [0.5, 0.999]
+  scheduler: ExponentialLR
+  scheduler_gamma: 0.95
+  lr_groups:
+    layer3: 0.0001
+    layer4: 0.0001
+    fc0: 0.0001
+    fc2: 0.001
+    fc4: 0.002
+
+evaluation:
+  metrics:
+    - accuracy
+    - macro_precision
+    - macro_recall
+    - macro_f1
+  test_samples: 21892
+
+seed: 42

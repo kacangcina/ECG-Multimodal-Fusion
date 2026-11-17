@@ -1,0 +1,67 @@
+{
+  "paper": "Ma, Zhan, Yang 2022, BSPC 77:103684, DOI 10.1016/j.bspc.2022.103684 (inspirasi; bukan replikasi exact)",
+  "paper_reported_UNVERIFIED": {
+    "accuracy": 99.23,
+    "avg_precision": 99.13,
+    "sensitivity": 97.5,
+    "specificity": 99.81,
+    "avg_f1": 98.29
+  },
+  "paper_corrigendum": "BSPC 77:103834 (belum dibaca)",
+  "deviations": [
+    "no CWGAN-GP",
+    "187-point pipeline, not 2.5 s @360 Hz",
+    "GASF 150 via pyts PAA",
+    "class-weighted loss, no oversampling/SMOTE",
+    "stratified 80/20 train/validation"
+  ],
+  "assumptions": [
+    "CBAM standard (reduction 16, spatial kernel 7)",
+    "CBAM placed after layer1..layer4",
+    "CBAM params trainable and in lr 1e-4 group",
+    "resize bilinear (match baseline unverified)",
+    "ExponentialLR stepped once per epoch",
+    "pilot recall-screening tolerance 1.0 pp"
+  ],
+  "baseline_caveats": [
+    "baseline checkpoint selected on test set",
+    "baseline trained on SMOTE train (152,471), candidate on raw train split (70,043)",
+    "baseline per-class class weights identical"
+  ],
+  "environment": {
+    "python": "3.13.16",
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "pyts": "0.14.1",
+    "sklearn": "1.6.1",
+    "cuda": "13.0",
+    "device": "cuda",
+    "gpu": "Tesla T4"
+  },
+  "seed": 42,
+  "flags": {
+    "RUN_SMOKE_TEST": false,
+    "RUN_PILOT": false,
+    "RUN_FULL_TRAINING": false,
+    "RUN_FINAL_EVALUATION": true
+  },
+  "smoke_status": null,
+  "pilot_decision": "PROMISING",
+  "comparison_decision": "SUPERIOR ON AT LEAST ONE METRIC",
+  "final_test_metrics": {
+    "accuracy": 98.46519276448018,
+    "macro_precision": 89.62256128713882,
+    "macro_recall": 92.17946847534921,
+    "macro_f1": 90.52506535184989,
+    "checkpoint_epoch": 5,
+    "inference_time_per_sample_ms": 1.9059805031038826
+  },
+  "selection_metric": "macro_recall",
+  "efficiency": {
+    "cbam_total_params": 11385037,
+    "cbam_trainable_params": 10701965,
+    "baseline_total_params": 11341125,
+    "pilot_duration_s": 1217.573750257492,
+    "inference_time_per_sample_ms": 1.9059805031038826
+  }
+}

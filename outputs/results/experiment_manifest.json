@@ -1,0 +1,150 @@
+{
+  "seed": 42,
+  "torch": "2.14.1+cu130",
+  "device": "cuda",
+  "flags": {
+    "RUN_GAF_SMOKE": false,
+    "RUN_GAF_FULL": null,
+    "RUN_RP_SMOKE": null,
+    "RUN_RP_FULL": null,
+    "RUN_MTF": true,
+    "RUN_MTF_SMOKE": true,
+    "RUN_MTF_FULL": true,
+    "RUN_MIF_SMOKE": true,
+    "RUN_MIF_FULL": true,
+    "RUN_MFF": true
+  },
+  "n_train": 152471,
+  "n_test": 21892,
+  "epochs": {
+    "cnn_full": 25,
+    "mff_head": 30
+  },
+  "fusion_checkpoint_kind": "recall",
+  "checkpoint_meta": {
+    "gaf/recall": {
+      "epoch": 8,
+      "recall": 0.9295170089463793,
+      "f1": 0.9345671890489478
+    },
+    "gaf/f1": {
+      "epoch": 21,
+      "recall": 0.9197085400563527,
+      "f1": 0.9353154903570706
+    },
+    "rp/recall": {
+      "epoch": 2,
+      "recall": 0.9351622095750514,
+      "f1": 0.9108609873288689
+    },
+    "rp/f1": {
+      "epoch": 24,
+      "recall": 0.9256386480192755,
+      "f1": 0.9364329852314318
+    },
+    "mtf/recall": {
+      "epoch": 2,
+      "recall": 0.9069070165561317,
+      "f1": 0.7742868538457773
+    },
+    "mtf/f1": {
+      "epoch": 22,
+      "recall": 0.8961287290906274,
+      "f1": 0.8791403387722612
+    },
+    "mif/recall": {
+      "epoch": 1,
+      "recall": 0.9335581100232838,
+      "f1": 0.9118231509328784
+    },
+    "mif/f1": {
+      "epoch": 25,
+      "recall": 0.9219160564652954,
+      "f1": 0.9349269992439233
+    },
+    "mff_concat/recall": {
+      "epoch": 16,
+      "recall": 0.9286574359456428,
+      "f1": 0.9387022850235749
+    },
+    "mff_concat/f1": {
+      "epoch": 3,
+      "recall": 0.924519408645045,
+      "f1": 0.9389170627485871
+    }
+  },
+  "artifacts": {
+    "hdf5/hb_data_mit_bih_balanced_3_fixed.hdf5": true,
+    "hdf5/hb_data_mit_bih_balanced_rp.hdf5": true,
+    "hdf5/hb_data_mit_bih_balanced_mtf.hdf5": true,
+    "features/X_train_smote.npy": true,
+    "features/y_train_smote.npy": true,
+    "features/X_test.npy": true,
+    "features/y_test.npy": true,
+    "checkpoints/mff_gfn_svm.joblib": true,
+    "features/mff_features_gaf_recall.npz": true,
+    "features/mff_features_rp_recall.npz": true,
+    "features/mff_features_mtf_recall.npz": true,
+    "checkpoints/res_net_gaf_test_recall_best.chk": true,
+    "checkpoints/res_net_gaf_test_f1_best.chk": true,
+    "checkpoints/res_net_rp_test_recall_best.chk": true,
+    "checkpoints/res_net_rp_test_f1_best.chk": true,
+    "checkpoints/res_net_mtf_test_recall_best.chk": true,
+    "checkpoints/res_net_mtf_test_f1_best.chk": true,
+    "checkpoints/res_net_mif_test_recall_best.chk": true,
+    "checkpoints/res_net_mif_test_f1_best.chk": true,
+    "checkpoints/res_net_mff_concat_test_recall_best.chk": true,
+    "checkpoints/res_net_mff_concat_test_f1_best.chk": true,
+    "outputs/results/history_gaf.csv": true,
+    "outputs/results/history_rp.csv": true,
+    "outputs/results/history_mtf.csv": true,
+    "outputs/results/history_mif.csv": true,
+    "outputs/results/history_mff_concat.csv": true
+  },
+  "assumptions": {
+    "gfn_map_shape": [
+      16,
+      32
+    ],
+    "svm": "LinearSVC(C=1.0, dual=False), tanpa normalisasi",
+    "paper_values": "abstrak (99.7%) + Tabel 5 per metode (AlexNet 227x227, diberikan pengguna; bukan konfigurasi identik); MFF repo: NOT FILLED"
+  },
+  "results_ckpt_f1": {
+    "GAF": {
+      "accuracy": 0.9886259820939156,
+      "precision": 0.9523079649879549,
+      "recall": 0.9197085400563527,
+      "f1": 0.9353154903570706
+    },
+    "RP": {
+      "accuracy": 0.988671660880687,
+      "precision": 0.9479385090950115,
+      "recall": 0.9256386480192755,
+      "f1": 0.9364329852314318
+    },
+    "MTF": {
+      "accuracy": 0.9765667823862598,
+      "precision": 0.8648891302077452,
+      "recall": 0.8961287290906274,
+      "f1": 0.8791403387722612
+    },
+    "MIF": {
+      "accuracy": 0.9890827699616298,
+      "precision": 0.9493485396392425,
+      "recall": 0.9219160564652954,
+      "f1": 0.9349269992439233
+    },
+    "MFF (paper: GFN + SVM)": {
+      "accuracy": 0.9899049881235155,
+      "precision": 0.9577447882837997,
+      "recall": 0.9227364244605735,
+      "f1": 0.939416967064561
+    },
+    "MFF (repo: concat + FC)": {
+      "accuracy": 0.9890370911748584,
+      "precision": 0.9543830809523829,
+      "recall": 0.924519408645045,
+      "f1": 0.9389170627485871
+    }
+  }
+}
